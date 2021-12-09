@@ -1,0 +1,10 @@
+{
+  "name": "Var Colors",
+  "id": "1050803621173854823",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": [
+    "figma"
+  ]
+}

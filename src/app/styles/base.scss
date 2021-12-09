@@ -1,0 +1,67 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  color: #222;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  margin: 2em 1em 0;
+  user-select: none;
+}
+
+button {
+  appearance: none;
+  background-color: white;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  font-size: inherit;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+
+  &:focus,
+  &:active {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px $blue;
+    outline: 0;
+  }
+}
+
+.input {
+  align-items: center;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  gap: 0.5em;
+  padding: 6px 7px;
+
+  &:hover {
+    border-color: $lightgray;
+  }
+
+  &:focus-within {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px $blue;
+  }
+
+  input {
+    border: 0;
+    height: auto;
+    margin-left: 0.35em;
+    padding: 0;
+    width: 100%;
+
+    &:focus {
+      border: 0;
+      outline: 0;
+    }
+  }
+}
+
+.input-row {
+  align-items: center;
+  display: flex;
+  gap: 1em;
+  margin: 1em 0;
+}
