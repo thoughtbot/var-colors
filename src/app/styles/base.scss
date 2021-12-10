@@ -76,3 +76,35 @@ button {
   white-space: nowrap;
   width: 1px;
 }
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  width: 90px;
+}
+
+input[type=radio] {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  background-color: transparent;
+  border: 1px solid currentColor;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-content: center;
+
+  &:checked{
+    border-color: $blue;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: $blue;
+      border-radius: 50%;
+    }
+  }
+}

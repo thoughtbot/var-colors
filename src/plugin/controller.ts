@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 240, height: 240 });
+figma.showUI(__html__, { width: 240, height: 210 });
 
 function getNodeColors(nodes, colorArray) {
   nodes.forEach(n => {
@@ -34,6 +34,4 @@ figma.ui.onmessage = msg => {
   if (msg.type === 'notify' && msg.message) {
     figma.notify(msg.message)
   }
-
-  // figma.closePlugin();
 };

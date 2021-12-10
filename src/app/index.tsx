@@ -25,8 +25,6 @@ export default class App extends Component {
   render(_, { source, format}) {
     return (
       <div>
-        <p>Source: { this.state.source }</p>
-        <p>Format: { this.state.format }</p>
         <div onChange={ this.onChangeValue }>
           <b>Source</b>
           <div className="input-row">
@@ -70,11 +68,10 @@ export default class App extends Component {
               checked={ this.state.format === "sass" }/>
               <span>Sass</span>
             </label>
-
           </div>
         </div>
         <button onClick={ e => parent.postMessage({ pluginMessage: { type: 'copy', source: this.state.source, format: this.state.format } }, '*') }>
-          Copy Variables to Clipboard
+          Copy to Clipboard
         </button>
 
         <pre id="copy" class="hide-visually"></pre>
