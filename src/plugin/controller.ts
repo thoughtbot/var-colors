@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 240, height: 210 });
+figma.showUI(__html__, { width: 240, height: 250 });
 
 function getNodeColors(nodes, colorArray) {
   nodes.forEach(n => {
@@ -17,14 +17,14 @@ figma.ui.onmessage = msg => {
   if (msg.type === 'copy') {
     let colors = []
 
-    switch(msg.source) {
+    switch(msg.settings.source) {
       case "selection":
         getNodeColors(figma.currentPage.selection, colors);
-        figma.ui.postMessage({ type: 'colors', colors: colors, format: msg.format })
+        figma.ui.postMessage({ type: 'colors', colors: colors, settings: msg.settings })
         break;
       case "styles":
         getStyleColors(colors);
-        figma.ui.postMessage({ type: 'colors', colors: colors, format: msg.format })
+        figma.ui.postMessage({ type: 'colors', colors: colors, settings: msg.settings })
         break;
       default:
         return;

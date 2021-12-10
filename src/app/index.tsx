@@ -1,5 +1,5 @@
 import { Component, render, h } from 'preact';
-import { figmaRGBToHex } from '@figma-plugin/helpers';
+import { figmaRGBToHex, figmaRGBToWebRGB } from '@figma-plugin/helpers';
 import slugify from 'slugify';
 import './styles/index.scss';
 
@@ -8,7 +8,8 @@ export default class App extends Component {
     super();
     this.state = {
       source: "styles",
-      format: "css"
+      format: "css",
+      colorFormat: "hex"
     };
   }
 
@@ -19,6 +20,10 @@ export default class App extends Component {
 
     if (event.target.name === "format") {
       this.setState({ format: event.target.value });
+    }
+
+    if (event.target.name === "colorFormat") {
+      this.setState({ colorFormat: event.target.value });
     }
   };
 
@@ -48,7 +53,7 @@ export default class App extends Component {
             </label>
           </div>
 
-          <b>Format</b>
+          <b>Variables format</b>
           <div className="input-row">
             <label htmlFor="css">
               <input
@@ -69,8 +74,14 @@ export default class App extends Component {
               <span>Sass</span>
             </label>
           </div>
+
+          <b>Color format</b>
+          <select value={ this.state.colorFormat } name="colorFormat">
+            <option value="hex">Hex</option>
+            <option value="rgb">RGB</option>
+          </select>
         </div>
-        <button onClick={ e => parent.postMessage({ pluginMessage: { type: 'copy', source: this.state.source, format: this.state.format } }, '*') }>
+        <button onClick={ e => parent.postMessage({ pluginMessage: { type: 'copy', settings: this.state } }, '*') }>
           Copy to Clipboard
         </button>
 
@@ -89,26 +100,45 @@ window.onmessage = function(event) {
 
   if (msg.type === 'colors') {
     let dict = msg.colors
-    let data = stringifyColors(msg.colors, msg.format)
+    let data = stringifyColors(msg.colors, msg.settings.format, msg.settings.colorFormat)
     copy(data, msg.colors.length)
   }
 }
 
-function stringifyColors(dict, format) {
+function stringifyColors(dict, format, colorFormat) {
   let data;
 
   switch(format) {
     case "css":
-      data = dict.map(c => `--${ slugify(c.name.toLowerCase()) }: ${ figmaRGBToHex(c.color) };`).join(`\n`);
+      data = dict.map(c => `--${ formatName(c.name.toLowerCase()) }: ${ formatColor(c.color, colorFormat) };`).join(`\n`);
       break;
     case "sass":
-      data = dict.map(c => `$${ slugify(c.name.toLowerCase()) }: ${ figmaRGBToHex(c.color) };`).join(`\n`);
+      data = dict.map(c => `$${ formatName(c.name.toLowerCase()) }: ${ formatColor(c.color, colorFormat) };`).join(`\n`);
       break;
     default:
       return;
   }
 
   return data;
+}
+
+function formatName(string) {
+  let s = string.replace('/', '-');
+  s = slugify(s);
+  return s;
+}
+
+function formatColor(color, format) {
+  switch(format) {
+    case "hex":
+      return figmaRGBToHex(color);
+      break;
+    case "rgb":
+      return `rgb(${figmaRGBToWebRGB(color)})`;
+      break;
+    default:
+      return;
+  }
 }
 
 function copy(string, amount) {

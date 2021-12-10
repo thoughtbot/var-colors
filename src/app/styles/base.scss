@@ -108,3 +108,16 @@ input[type=radio] {
     }
   }
 }
+
+select {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid currentColor;
+  cursor: pointer;
+  display: block;
+  font-size: inherit;
+  line-height: 1.1;
+  margin: 0.25em 0 1em;
+  padding: 0.25em 0.5em;
+  width: 90px;
+}
