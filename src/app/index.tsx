@@ -73,6 +73,15 @@ export default class App extends Component {
               checked={ this.state.format === "sass" }/>
               <span>Sass</span>
             </label>
+            <label htmlFor="json">
+              <input
+              type="radio"
+              id="json"
+              name="format"
+              value="json"
+              checked={ this.state.format === "json" }/>
+              <span>JSON</span>
+            </label>
           </div>
 
           <b>Color format</b>
@@ -115,6 +124,14 @@ function stringifyColors(dict, format, colorFormat) {
     case "sass":
       data = dict.map(c => `$${ formatName(c.name.toLowerCase()) }: ${ formatColor(c.color, colorFormat) };`).join(`\n`);
       break;
+    case "json":
+      data = {}
+      dict.forEach(c => {
+        let name = formatName(c.name.toLowerCase())
+        data[name] = formatColor(c.color, colorFormat)
+      })
+      data = JSON.stringify(data, null, 4)
+      break;
     default:
       return;
   }
@@ -134,7 +151,7 @@ function formatColor(color, format) {
       return figmaRGBToHex(color);
       break;
     case "rgb":
-      return `rgb(${figmaRGBToWebRGB(color)})`;
+      return `rgb(${figmaRGBToWebRGB(color)})`.replace(",", " ");
       break;
     default:
       return;

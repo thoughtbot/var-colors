@@ -2,7 +2,11 @@ figma.showUI(__html__, { width: 240, height: 250 });
 
 function getNodeColors(nodes, colorArray) {
   nodes.forEach(n => {
-    n.fills?.filter(f => f.type === "SOLID" && f.visible ).forEach(f => colorArray.push({ name: n.name, color: f.color }))
+    if (n.fills != figma.mixed) {
+      n.fills?.filter(f => f.type === "SOLID" && f.visible ).forEach(f => colorArray.push({ name: n.name, color: f.color }))
+    }
+
+    //recurse into children
     if (n.children) getNodeColors(n.children, colorArray)
   })
 }
